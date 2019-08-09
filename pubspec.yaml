@@ -1,0 +1,15 @@
+name: double_back_to_close_app
+description: A new Flutter package.
+version: 1.0.0
+author: Hugo Passos
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
