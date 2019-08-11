@@ -9,8 +9,6 @@ A Flutter package that allows Android users to press the back-button twice to cl
 Inside a `Scaffold` that wraps all your Widgets, place the `DoubleBackToCloseApp` passing a `SnackBar`:
 
 ```dart
-void main() async => runApp(MyApp());
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

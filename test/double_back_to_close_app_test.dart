@@ -29,24 +29,18 @@ void main() {
   );
 
   testWidgets(
-    'Given that `DoubleBackToCloseApp` was NOT wrapped in a `Scaffold`. '
-    'When back-button is tapped. '
-    'Then an `AssertionError` is thrown. '
-    'And a `SnackBar` is NOT shown.',
+    "Given that `DoubleBackToCloseApp` wasn't wrapped in a `Scaffold`. "
+    'When `DoubleBackToCloseApp` tries to build. '
+    'Then an `AssertionError` is thrown.',
     (WidgetTester tester) async {
-      // Given that `DoubleBackToCloseApp` was NOT wrapped in a `Scaffold`.
+      // Given that `DoubleBackToCloseApp` wasn't wrapped in a `Scaffold`.
       TestWidget widget = TestWidget(withScaffold: false);
+
+      // When `DoubleBackToCloseApp` tries to build.
       await tester.pumpWidget(widget);
 
-      expect(
-        // When back-button is tapped.
-        () => tester.binding.handlePopRoute(),
-        // Then an `AssertionError` is thrown.
-        throwsAssertionError,
-      );
-
-      // And a `SnackBar` is NOT shown.
-      expect(find.byType(SnackBar), findsNothing);
+      // Then an `AssertionError` is thrown.
+      expect(tester.takeException(), isAssertionError);
     },
   );
 
@@ -110,7 +104,7 @@ class TestWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget widget = DoubleBackToCloseApp(
+    Widget widget = MockDoubleBackToCloseApp(
       snackBar: SnackBar(
         content: Text('Press back again to leave'),
       ),
@@ -123,4 +117,18 @@ class TestWidget extends StatelessWidget {
       home: withScaffold ? Scaffold(body: widget) : widget,
     );
   }
+}
+
+class MockDoubleBackToCloseApp extends DoubleBackToCloseApp {
+  MockDoubleBackToCloseApp({SnackBar snackBar, Widget child})
+      : super(snackBar: snackBar, child: child);
+
+  @override
+  MockDoubleBackToCloseAppState createState() =>
+      MockDoubleBackToCloseAppState();
+}
+
+class MockDoubleBackToCloseAppState extends DoubleBackToCloseAppState {
+  @override
+  bool get isAndroid => true;
 }
