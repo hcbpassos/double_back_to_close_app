@@ -1,14 +1,34 @@
 # double_back_to_close_app
 
-A new Flutter package.
+[![pub package](https://img.shields.io/pub/v/double_back_to_close_app.svg)](https://pub.dartlang.org/packages/double_back_to_close_app)
 
-## Getting Started
+A Flutter package that allows Android users to press the back-button twice to close the app.
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+## Usage
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+Inside a `Scaffold` that wraps all of your app Widgets, place the `DoubleBackToCloseApp` passing a `SnackBar`:
+
+```dart
+void main() async => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: DoubleBackToCloseApp(
+          child: Home(),
+          snackBar: const SnackBar(
+            content: Text('Tap back again to leave'),
+          ),
+        ),
+      ),
+    );
+  }
+}
+``` 
+
+## Motivation 
+
+I've implemented such solution when I answered [this question](https://stackoverflow.com/a/56344092/6696558) in Stack Overflow,
+ and since this feature seems to be implemented very often, I decided to extract it in a lightweight library. 

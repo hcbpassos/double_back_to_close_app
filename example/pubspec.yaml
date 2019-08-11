@@ -18,5 +18,3 @@ dev_dependencies:
 
   double_back_to_close_app:
     path: ../
-
-flutter:
