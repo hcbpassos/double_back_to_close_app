@@ -3,6 +3,7 @@ description: A Flutter package that allows Android users to press the back-butto
 version: 0.1.0
 author: Hugo Passos <hugocbpassos@gmail.com>
 homepage: https://github.com/hugocbpassos/double_back_to_close_app
+issue_tracker: https://github.com/hugocbpassos/double_back_to_close_app/issues
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
