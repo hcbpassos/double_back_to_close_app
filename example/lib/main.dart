@@ -9,7 +9,7 @@ class Example extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         body: DoubleBackToCloseApp(
-          snackBar: SnackBar(
+          snackBar: const SnackBar(
             key: ValueKey('snack_bar'),
             content: Text('Tap back again to leave'),
           ),
