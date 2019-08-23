@@ -1,4 +1,5 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -67,6 +68,35 @@ void main() {
 
       // And the app is closed.
       expect(eventHandler.didPopRouteCount, 1);
+    },
+  );
+
+  testWidgets(
+    'Given that the platform is not Android. '
+    'And the `DoubleBackToCloseApp` was wrapped in a `Scaffold`. '
+    ''
+    'When back-button is tapped. '
+    ''
+    'Then the app is closed.',
+    (WidgetTester tester) async {
+      // Given that the platform is not Android.
+      debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+
+      // And the `DoubleBackToCloseApp` was wrapped in a `Scaffold`.
+      TestWidget widget = TestWidget(withScaffold: true);
+      await tester.pumpWidget(widget);
+
+      LifecycleEventHandler eventHandler = LifecycleEventHandler();
+      tester.binding.addObserver(eventHandler);
+
+      // When back-button is tapped.
+      await tester.binding.handlePopRoute();
+      await tester.pump();
+
+      // Then the app is closed.
+      expect(eventHandler.didPopRouteCount, 1);
+
+      debugDefaultTargetPlatformOverride = null;
     },
   );
 
