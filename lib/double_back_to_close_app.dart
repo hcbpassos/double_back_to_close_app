@@ -11,8 +11,7 @@ import 'package:flutter/material.dart';
 /// to be considered to decide whether the SnackBar is currently visible or not.
 ///
 /// Since the back-button is an Android feature, this Widget is going to be
-/// nothing but a useless [SizedBox] if the current platform is anything but
-/// Android.
+/// nothing but the own [child] if the current platform is anything but Android.
 class DoubleBackToCloseApp extends StatefulWidget {
   final SnackBar snackBar;
   final Widget child;
@@ -53,7 +52,7 @@ class DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
         child: widget.child,
       );
     } else {
-      return SizedBox();
+      return widget.child;
     }
   }
 
