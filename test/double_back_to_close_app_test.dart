@@ -104,7 +104,7 @@ class TestWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget widget = MockDoubleBackToCloseApp(
+    Widget widget = DoubleBackToCloseApp(
       snackBar: SnackBar(
         content: Text('Press back again to leave'),
       ),
@@ -117,18 +117,4 @@ class TestWidget extends StatelessWidget {
       home: withScaffold ? Scaffold(body: widget) : widget,
     );
   }
-}
-
-class MockDoubleBackToCloseApp extends DoubleBackToCloseApp {
-  MockDoubleBackToCloseApp({SnackBar snackBar, Widget child})
-      : super(snackBar: snackBar, child: child);
-
-  @override
-  MockDoubleBackToCloseAppState createState() =>
-      MockDoubleBackToCloseAppState();
-}
-
-class MockDoubleBackToCloseAppState extends DoubleBackToCloseAppState {
-  @override
-  bool get isAndroid => true;
 }

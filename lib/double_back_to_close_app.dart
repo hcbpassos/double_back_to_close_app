@@ -32,10 +32,7 @@ class DoubleBackToCloseApp extends StatefulWidget {
 class DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
   DateTime lastTimeBackButtonWasTapped;
 
-  /// Returns whether the current platform is Android.
-  ///
-  /// This was extracted into a getter for testing purposes.
-  bool get isAndroid => Platform.isAndroid;
+  bool get isAndroid => Theme.of(context).platform == TargetPlatform.android;
 
   bool get isSnackBarVisible =>
       (lastTimeBackButtonWasTapped == null) ||
