@@ -2,11 +2,12 @@ import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
 void main() {
+  final backButtonFinder = find.byType('OutlineButton');
+  final snackBarFinder = find.byType('SnackBar');
+
   FlutterDriver driver;
 
-  setUpAll(() async {
-    driver = await FlutterDriver.connect();
-  });
+  setUpAll(() async => driver = await FlutterDriver.connect());
 
   tearDownAll(() => driver?.close());
 
@@ -26,9 +27,6 @@ void main() {
     'Then another `SnackBar` is shown. '
     'And the app stills opened.',
     () async {
-      SerializableFinder backButtonFinder = find.byValueKey('back_button');
-      SerializableFinder snackBarFinder = find.byValueKey('snack_bar');
-
       // Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`.
       // And that the back-button was tapped.
       await driver.tap(backButtonFinder);

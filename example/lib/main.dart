@@ -10,12 +10,10 @@ class Example extends StatelessWidget {
       home: Scaffold(
         body: DoubleBackToCloseApp(
           snackBar: const SnackBar(
-            key: ValueKey('snack_bar'),
             content: Text('Tap back again to leave'),
           ),
           child: Center(
             child: OutlineButton(
-              key: ValueKey('back_button'),
               child: Text('Tap to simulate back'),
               onPressed: WidgetsBinding.instance.handlePopRoute,
             ),
