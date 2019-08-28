@@ -11,10 +11,10 @@ void main() {
     'And the app stills opened.',
     (WidgetTester tester) async {
       // Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`.
-      TestWidget widget = TestWidget(withScaffold: true);
+      final widget = const TestWidget(withScaffold: true);
       await tester.pumpWidget(widget);
 
-      LifecycleEventHandler eventHandler = LifecycleEventHandler();
+      final eventHandler = LifecycleEventHandler();
       tester.binding.addObserver(eventHandler);
 
       // When back-button is tapped.
@@ -35,13 +35,13 @@ void main() {
     'Then an `AssertionError` is thrown.',
     (WidgetTester tester) async {
       // Given that `DoubleBackToCloseApp` wasn't wrapped in a `Scaffold`.
-      TestWidget widget = TestWidget(withScaffold: false);
+      final widget = const TestWidget(withScaffold: false);
 
       // When `DoubleBackToCloseApp` tries to build.
       await tester.pumpWidget(widget);
 
       // Then an `AssertionError` is thrown.
-      expect(tester.takeException(), isAssertionError);
+      expect(tester.takeException(), isStateError);
     },
   );
 
@@ -52,10 +52,10 @@ void main() {
     'And the app is closed.',
     (WidgetTester tester) async {
       // Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`.
-      TestWidget widget = TestWidget(withScaffold: true);
+      final widget = const TestWidget(withScaffold: true);
       await tester.pumpWidget(widget);
 
-      LifecycleEventHandler eventHandler = LifecycleEventHandler();
+      final eventHandler = LifecycleEventHandler();
       tester.binding.addObserver(eventHandler);
 
       // When back-button is tapped twice.
@@ -74,19 +74,17 @@ void main() {
   testWidgets(
     'Given that the platform is not Android. '
     'And the `DoubleBackToCloseApp` was wrapped in a `Scaffold`. '
-    ''
     'When back-button is tapped. '
-    ''
     'Then the app is closed.',
     (WidgetTester tester) async {
       // Given that the platform is not Android.
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
       // And the `DoubleBackToCloseApp` was wrapped in a `Scaffold`.
-      TestWidget widget = TestWidget(withScaffold: true);
+      final widget = const TestWidget(withScaffold: true);
       await tester.pumpWidget(widget);
 
-      LifecycleEventHandler eventHandler = LifecycleEventHandler();
+      final eventHandler = LifecycleEventHandler();
       tester.binding.addObserver(eventHandler);
 
       // When back-button is tapped.
@@ -130,11 +128,12 @@ class LifecycleEventHandler extends WidgetsBindingObserver {
 class TestWidget extends StatelessWidget {
   final bool withScaffold;
 
-  TestWidget({@required this.withScaffold}) : assert(withScaffold != null);
+  const TestWidget({@required this.withScaffold})
+      : assert(withScaffold != null);
 
   @override
   Widget build(BuildContext context) {
-    Widget widget = DoubleBackToCloseApp(
+    const widget = DoubleBackToCloseApp(
       snackBar: SnackBar(
         content: Text('Press back again to leave'),
       ),
