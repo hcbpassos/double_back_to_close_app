@@ -4,9 +4,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  final snackBarFinder = find.byType(SnackBar);
+  final scaffoldFinder = find.byType(Scaffold);
+
+  testWidgets('Asserts.', (WidgetTester tester) async {
+    // `DoubleBackToCloseApp.snackBar` null.
+    expect(
+      () => DoubleBackToCloseApp(
+        snackBar: null,
+        child: SizedBox(),
+      ),
+      throwsAssertionError,
+    );
+
+    // `DoubleBackToCloseApp.child` null.
+    expect(
+      () => DoubleBackToCloseApp(
+        snackBar: SnackBar(content: SizedBox()),
+        child: null,
+      ),
+      throwsAssertionError,
+    );
+  });
+
   testWidgets(
     'Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`. '
+    ''
     'When back-button is tapped. '
+    ''
     'Then a `SnackBar` is shown. '
     'And the app stills opened.',
     (WidgetTester tester) async {
@@ -22,7 +47,7 @@ void main() {
       await tester.pump();
 
       // Then a `SnackBar` is shown.
-      expect(find.byType(SnackBar), findsOneWidget);
+      expect(snackBarFinder, findsOneWidget);
 
       // And the app stills opened.
       expect(eventHandler.didPopRouteCount, 0);
@@ -47,7 +72,9 @@ void main() {
 
   testWidgets(
     'Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`. '
+    ''
     'When back-button is tapped twice. '
+    ''
     'Then a `SnackBar` is shown only once. '
     'And the app is closed.',
     (WidgetTester tester) async {
@@ -64,7 +91,7 @@ void main() {
       await tester.pump();
 
       // Then a `SnackBar` is shown only once.
-      expect(find.byType(SnackBar), findsOneWidget);
+      expect(snackBarFinder, findsOneWidget);
 
       // And the app is closed.
       expect(eventHandler.didPopRouteCount, 1);
@@ -74,7 +101,9 @@ void main() {
   testWidgets(
     'Given that the platform is not Android. '
     'And the `DoubleBackToCloseApp` was wrapped in a `Scaffold`. '
+    ''
     'When back-button is tapped. '
+    ''
     'Then the app is closed.',
     (WidgetTester tester) async {
       // Given that the platform is not Android.
@@ -96,6 +125,47 @@ void main() {
 
       debugDefaultTargetPlatformOverride = null;
     },
+  );
+
+  testWidgets(
+    'Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`. '
+    'And the back-button was tapped. '
+    'And the `SnackBar` was dismissed. '
+    ''
+    'When back-button is tapped again. '
+    ''
+    'Then another `SnackBar` is shown. '
+    'And the app stills opened.',
+    (WidgetTester tester) async {
+      // Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`.
+      final widget = const TestWidget(withScaffold: true);
+      await tester.pumpWidget(widget);
+
+      final eventHandler = LifecycleEventHandler();
+      tester.binding.addObserver(eventHandler);
+
+      // And the back-button was tapped.
+      await tester.binding.handlePopRoute();
+      await tester.pump();
+
+      // And the `SnackBar` was dismissed.
+      expect(snackBarFinder, findsOneWidget);
+      tester.state<ScaffoldState>(scaffoldFinder).hideCurrentSnackBar();
+      await tester.pump();
+      expect(snackBarFinder, findsNothing);
+
+      // When back-button is tapped again.
+      await tester.binding.handlePopRoute();
+      await tester.pump();
+
+      // Then another `SnackBar` is shown.
+      expect(snackBarFinder, findsOneWidget);
+
+      // And the app stills opened.
+      expect(eventHandler.didPopRouteCount, 0);
+    },
+    // This test won't run until #2 is resolved.
+    skip: true,
   );
 
   testWidgets(
