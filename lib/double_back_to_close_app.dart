@@ -1,7 +1,5 @@
 library double_back_to_close_app;
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 /// Allows the user to close the app by double tapping the back-button.
