@@ -73,7 +73,7 @@ class DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
     }
   }
 
-  /// Throws an [StateError] if this widget was not wrapped in a [Scaffold].
+  /// Throws a [StateError] if this widget was not wrapped in a [Scaffold].
   void ensureThatContextContainsScaffold() {
     if (Scaffold.of(context, nullOk: true) == null) {
       throw StateError(

@@ -179,9 +179,9 @@ void main() {
     'And the app stills opened.',
     (WidgetTester tester) async {
       // I could not test this properly, since the `SnackBar` never collapses,
-      // even with `tester.pumpAndSettle`, so I moved this test to the
-      // test_driver of the example. If anyone has any idea on why this happens
-      // and how to fix it, please let me know.
+      // even with `tester.runAsync()`, so I moved this test to the test_driver
+      // of the example. If anyone has any idea on why this happens and how to
+      // fix it, please let me know.
     },
   );
 }
