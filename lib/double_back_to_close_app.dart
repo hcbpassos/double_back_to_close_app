@@ -64,7 +64,8 @@ class DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
 
   /// Handles [WillPopScope.onWillPop].
   Future<bool> onWillPop() async {
-    if (isSnackBarVisible) {
+    var isDrawerOpened = Scaffold.of(context).isDrawerOpen;
+    if (isSnackBarVisible && !isDrawerOpened) {
       lastTimeBackButtonWasTapped = DateTime.now();
       Scaffold.of(context).showSnackBar(widget.snackBar);
       return false;
