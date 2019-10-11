@@ -1,7 +1,7 @@
 # double_back_to_close_app
 
 [![pub package](https://img.shields.io/pub/v/double_back_to_close_app.svg)](https://pub.dartlang.org/packages/double_back_to_close_app)
-![](https://github.com/hugocbpassos/double_back_to_close_app/workflows/CI/badge.svg)
+[![ci workflow](https://github.com/hugocbpassos/double_back_to_close_app/workflows/CI/badge.svg)](https://github.com/hugocbpassos/double_back_to_close_app/actions?workflow=CI)
 
 A Flutter package that allows Android users to press the back-button twice to close the app.
 
