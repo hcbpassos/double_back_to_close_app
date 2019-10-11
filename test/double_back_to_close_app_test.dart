@@ -36,7 +36,7 @@ void main() {
     'And the app stills opened.',
     (tester) async {
       // Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`.
-      final widget = const TestWidget(withScaffold: true);
+      final widget = TestWidget(withScaffold: true);
       await tester.pumpWidget(widget);
 
       final eventHandler = LifecycleEventHandler();
@@ -60,7 +60,7 @@ void main() {
     'Then an `AssertionError` is thrown.',
     (tester) async {
       // Given that `DoubleBackToCloseApp` wasn't wrapped in a `Scaffold`.
-      final widget = const TestWidget(withScaffold: false);
+      final widget = TestWidget(withScaffold: false);
 
       // When `DoubleBackToCloseApp` tries to build.
       await tester.pumpWidget(widget);
@@ -79,7 +79,7 @@ void main() {
     'And the app is closed.',
     (tester) async {
       // Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`.
-      final widget = const TestWidget(withScaffold: true);
+      final widget = TestWidget(withScaffold: true);
       await tester.pumpWidget(widget);
 
       final eventHandler = LifecycleEventHandler();
@@ -110,7 +110,7 @@ void main() {
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
       // And the `DoubleBackToCloseApp` was wrapped in a `Scaffold`.
-      final widget = const TestWidget(withScaffold: true);
+      final widget = TestWidget(withScaffold: true);
       await tester.pumpWidget(widget);
 
       final eventHandler = LifecycleEventHandler();
@@ -138,7 +138,7 @@ void main() {
     'And the app stills opened.',
     (tester) async {
       // Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`.
-      final widget = const TestWidget(withScaffold: true);
+      final widget = TestWidget(withScaffold: true);
       await tester.pumpWidget(widget);
 
       final eventHandler = LifecycleEventHandler();
@@ -170,6 +170,85 @@ void main() {
 
   testWidgets(
     'Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`. '
+    'And that the `Scaffold` has a `Drawer`. '
+    'And that the `Drawer` was opened. '
+    ''
+    'When back-button is tapped. '
+    ''
+    'Then the `Drawer` closes. '
+    "And the `SnackBar` doesn't show up."
+    'And the app stills opened.',
+    (tester) async {
+      // Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`.
+      // And that the `Scaffold` has a `Drawer`.
+      final widget = TestWidget(withScaffold: true, withDrawer: true);
+      await tester.pumpWidget(widget);
+
+      final eventHandler = LifecycleEventHandler();
+      tester.binding.addObserver(eventHandler);
+
+      final scaffoldState = tester.state<ScaffoldState>(scaffoldFinder);
+
+      // And that the `Drawer` was opened.
+      scaffoldState.openDrawer();
+      await tester.pump();
+
+      // When back-button is tapped.
+      await tester.binding.handlePopRoute();
+      await tester.pump();
+
+      // Then the `Drawer` closes.
+      expect(scaffoldState.isDrawerOpen, isFalse);
+
+      // And the `SnackBar` doesn't show up.
+      expect(snackBarFinder, findsNothing);
+
+      // And the app stills opened.
+      expect(eventHandler.didPopRouteCount, 0);
+    },
+  );
+
+  testWidgets(
+    'Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`. '
+    'And that the `Scaffold` has a `Drawer`. '
+    'And that the `Drawer` was opened and closed via back-button. '
+    ''
+    'When back-button is tapped again. '
+    ''
+    'Then a `SnackBar` is shown. '
+    'And the app stills opened.',
+    (tester) async {
+      // Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`.
+      // And that the `Scaffold` has a `Drawer`.
+      final widget = TestWidget(withScaffold: true, withDrawer: true);
+      await tester.pumpWidget(widget);
+
+      final eventHandler = LifecycleEventHandler();
+      tester.binding.addObserver(eventHandler);
+
+      final scaffoldState = tester.state<ScaffoldState>(scaffoldFinder);
+
+      // And that the `Drawer` was opened and closed via back-button.
+      scaffoldState.openDrawer();
+      await tester.pump();
+
+      await tester.binding.handlePopRoute();
+      await tester.pump();
+
+      // When back-button is tapped again.
+      await tester.binding.handlePopRoute();
+      await tester.pump();
+
+      // Then a `SnackBar` is shown.
+      expect(snackBarFinder, findsOneWidget);
+
+      // And the app stills opened.
+      expect(eventHandler.didPopRouteCount, 0);
+    },
+  );
+
+  testWidgets(
+    'Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`. '
     'And that the back-button was tapped. '
     ''
     'When the `SnackBar` collapses. '
@@ -195,15 +274,23 @@ class LifecycleEventHandler extends WidgetsBindingObserver {
   }
 }
 
-class TestWidget extends StatelessWidget {
+class TestWidget extends StatefulWidget {
   final bool withScaffold;
+  final bool withDrawer;
 
-  const TestWidget({@required this.withScaffold})
-      : assert(withScaffold != null);
+  TestWidget({@required this.withScaffold, this.withDrawer = false})
+      : assert(withScaffold != null) {
+    if (!withScaffold) assert(!withDrawer);
+  }
 
   @override
+  TestWidgetState createState() => TestWidgetState();
+}
+
+class TestWidgetState extends State<TestWidget> {
+  @override
   Widget build(BuildContext context) {
-    const widget = DoubleBackToCloseApp(
+    const doubleBackToCloseApp = DoubleBackToCloseApp(
       snackBar: SnackBar(
         content: Text('Press back again to leave'),
       ),
@@ -213,7 +300,12 @@ class TestWidget extends StatelessWidget {
     );
 
     return MaterialApp(
-      home: withScaffold ? Scaffold(body: widget) : widget,
+      home: widget.withScaffold
+          ? Scaffold(
+              drawer: widget.withDrawer ? Drawer(child: Container()) : null,
+              body: doubleBackToCloseApp,
+            )
+          : doubleBackToCloseApp,
     );
   }
 }

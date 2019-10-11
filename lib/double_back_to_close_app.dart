@@ -1,5 +1,3 @@
-library double_back_to_close_app;
-
 import 'package:flutter/material.dart';
 
 /// Allows the user to close the app by double tapping the back-button.
@@ -48,6 +46,15 @@ class DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
       (widget.snackBar.duration >
           DateTime.now().difference(lastTimeBackButtonWasTapped));
 
+  /// Returns whether the next back navigation of this route will be handled
+  /// internally.
+  ///
+  /// Returns true when there's a widget that inserted an entry into the
+  /// local-history of the current route, in order to handle pop. This is done
+  /// by [Drawer], for example, so it can close on pop.
+  bool get willHandlePopInternally =>
+      ModalRoute.of(context).willHandlePopInternally;
+
   @override
   Widget build(BuildContext context) {
     ensureThatContextContainsScaffold();
@@ -64,7 +71,7 @@ class DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
 
   /// Handles [WillPopScope.onWillPop].
   Future<bool> onWillPop() async {
-    if (isSnackBarVisible) {
+    if (isSnackBarVisible || willHandlePopInternally) {
       return true;
     } else {
       lastTimeBackButtonWasTapped = DateTime.now();
@@ -77,7 +84,7 @@ class DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
   void ensureThatContextContainsScaffold() {
     if (Scaffold.of(context, nullOk: true) == null) {
       throw StateError(
-        '`DoubleBackToCloseApp` should be wrapped in a `Scaffold`.',
+        '`DoubleBackToCloseApp` must be wrapped in a `Scaffold`.',
       );
     }
   }
