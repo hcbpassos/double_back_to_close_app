@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 ///
 /// You must specify a [SnackBar], so it can be shown when the user taps the
 /// back-button. Notice that the value you set for [SnackBar.duration] is going
-/// to be considered to decide whether the snack bar is currently visible or
+/// to be considered to decide whether the snack-bar is currently visible or
 /// not.
 ///
 /// Since the back-button is an Android feature, this Widget is going to be
@@ -37,16 +37,16 @@ class DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
 
   /// Returns whether the [DoubleBackToCloseApp.snackBar] is currently visible.
   ///
-  /// The snack bar is going to be considered visible if the difference from now
-  /// to the [lastTimeBackButtonWasTapped] is greater than the duration of the
-  /// snack bar.
+  /// The snack-bar is going to be considered visible if the duration of the
+  /// snack-bar is greater than the difference from now to the
+  /// [lastTimeBackButtonWasTapped].
   ///
-  /// This is not quite accurate since the snack bar could've been dismissed by
+  /// This is not quite accurate since the snack-bar could've been dismissed by
   /// the user, so this algorithm needs to be improved, as described in #2.
   bool get isSnackBarVisible =>
-      (lastTimeBackButtonWasTapped == null) ||
-      (DateTime.now().difference(lastTimeBackButtonWasTapped) >
-          widget.snackBar.duration);
+      (lastTimeBackButtonWasTapped != null) &&
+      (widget.snackBar.duration >
+          DateTime.now().difference(lastTimeBackButtonWasTapped));
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
 
     if (isAndroid) {
       return WillPopScope(
-        onWillPop: () => onWillPop(),
+        onWillPop: onWillPop,
         child: widget.child,
       );
     } else {
@@ -65,11 +65,11 @@ class DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
   /// Handles [WillPopScope.onWillPop].
   Future<bool> onWillPop() async {
     if (isSnackBarVisible) {
+      return true;
+    } else {
       lastTimeBackButtonWasTapped = DateTime.now();
       Scaffold.of(context).showSnackBar(widget.snackBar);
       return false;
-    } else {
-      return true;
     }
   }
 
