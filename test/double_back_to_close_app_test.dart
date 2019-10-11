@@ -7,7 +7,7 @@ void main() {
   final snackBarFinder = find.byType(SnackBar);
   final scaffoldFinder = find.byType(Scaffold);
 
-  testWidgets('Asserts.', (WidgetTester tester) async {
+  testWidgets('Asserts.', (tester) async {
     // `DoubleBackToCloseApp.snackBar` null.
     expect(
       () => DoubleBackToCloseApp(
@@ -34,7 +34,7 @@ void main() {
     ''
     'Then a `SnackBar` is shown. '
     'And the app stills opened.',
-    (WidgetTester tester) async {
+    (tester) async {
       // Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`.
       final widget = const TestWidget(withScaffold: true);
       await tester.pumpWidget(widget);
@@ -58,7 +58,7 @@ void main() {
     "Given that `DoubleBackToCloseApp` wasn't wrapped in a `Scaffold`. "
     'When `DoubleBackToCloseApp` tries to build. '
     'Then an `AssertionError` is thrown.',
-    (WidgetTester tester) async {
+    (tester) async {
       // Given that `DoubleBackToCloseApp` wasn't wrapped in a `Scaffold`.
       final widget = const TestWidget(withScaffold: false);
 
@@ -77,7 +77,7 @@ void main() {
     ''
     'Then a `SnackBar` is shown only once. '
     'And the app is closed.',
-    (WidgetTester tester) async {
+    (tester) async {
       // Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`.
       final widget = const TestWidget(withScaffold: true);
       await tester.pumpWidget(widget);
@@ -105,7 +105,7 @@ void main() {
     'When back-button is tapped. '
     ''
     'Then the app is closed.',
-    (WidgetTester tester) async {
+    (tester) async {
       // Given that the platform is not Android.
       debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
 
@@ -136,7 +136,7 @@ void main() {
     ''
     'Then another `SnackBar` is shown. '
     'And the app stills opened.',
-    (WidgetTester tester) async {
+    (tester) async {
       // Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`.
       final widget = const TestWidget(withScaffold: true);
       await tester.pumpWidget(widget);
@@ -177,7 +177,7 @@ void main() {
     ''
     'Then another `SnackBar` is shown. '
     'And the app stills opened.',
-    (WidgetTester tester) async {
+    (tester) async {
       // I could not test this properly, since the `SnackBar` never collapses,
       // even with `tester.runAsync()`, so I moved this test to the test_driver
       // of the example. If anyone has any idea on why this happens and how to
