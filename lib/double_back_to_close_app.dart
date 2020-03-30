@@ -22,29 +22,28 @@ class DoubleBackToCloseApp extends StatefulWidget {
         super(key: key);
 
   @override
-  DoubleBackToCloseAppState createState() => DoubleBackToCloseAppState();
+  _DoubleBackToCloseAppState createState() => _DoubleBackToCloseAppState();
 }
 
-@visibleForTesting
-class DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
+class _DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
   /// The last time the user tapped Android's back-button.
-  DateTime lastTimeBackButtonWasTapped;
+  DateTime _lastTimeBackButtonWasTapped;
 
   /// Returns whether the current platform is Android.
-  bool get isAndroid => Theme.of(context).platform == TargetPlatform.android;
+  bool get _isAndroid => Theme.of(context).platform == TargetPlatform.android;
 
   /// Returns whether the [DoubleBackToCloseApp.snackBar] is currently visible.
   ///
   /// The snack-bar is going to be considered visible if the duration of the
   /// snack-bar is greater than the difference from now to the
-  /// [lastTimeBackButtonWasTapped].
+  /// [_lastTimeBackButtonWasTapped].
   ///
   /// This is not quite accurate since the snack-bar could've been dismissed by
   /// the user, so this algorithm needs to be improved, as described in #2.
-  bool get isSnackBarVisible =>
-      (lastTimeBackButtonWasTapped != null) &&
+  bool get _isSnackBarVisible =>
+      (_lastTimeBackButtonWasTapped != null) &&
       (widget.snackBar.duration >
-          DateTime.now().difference(lastTimeBackButtonWasTapped));
+          DateTime.now().difference(_lastTimeBackButtonWasTapped));
 
   /// Returns whether the next back navigation of this route will be handled
   /// internally.
@@ -52,16 +51,16 @@ class DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
   /// Returns true when there's a widget that inserted an entry into the
   /// local-history of the current route, in order to handle pop. This is done
   /// by [Drawer], for example, so it can close on pop.
-  bool get willHandlePopInternally =>
+  bool get _willHandlePopInternally =>
       ModalRoute.of(context).willHandlePopInternally;
 
   @override
   Widget build(BuildContext context) {
-    ensureThatContextContainsScaffold();
+    _ensureThatContextContainsScaffold();
 
-    if (isAndroid) {
+    if (_isAndroid) {
       return WillPopScope(
-        onWillPop: onWillPop,
+        onWillPop: _onWillPop,
         child: widget.child,
       );
     } else {
@@ -70,18 +69,18 @@ class DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
   }
 
   /// Handles [WillPopScope.onWillPop].
-  Future<bool> onWillPop() async {
-    if (isSnackBarVisible || willHandlePopInternally) {
+  Future<bool> _onWillPop() async {
+    if (_isSnackBarVisible || _willHandlePopInternally) {
       return true;
     } else {
-      lastTimeBackButtonWasTapped = DateTime.now();
+      _lastTimeBackButtonWasTapped = DateTime.now();
       Scaffold.of(context).showSnackBar(widget.snackBar);
       return false;
     }
   }
 
   /// Throws a [StateError] if this widget was not wrapped in a [Scaffold].
-  void ensureThatContextContainsScaffold() {
+  void _ensureThatContextContainsScaffold() {
     if (Scaffold.of(context, nullOk: true) == null) {
       throw StateError(
         '`DoubleBackToCloseApp` must be wrapped in a `Scaffold`.',

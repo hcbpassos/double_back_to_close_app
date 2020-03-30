@@ -57,7 +57,7 @@ void main() {
   testWidgets(
     "Given that `DoubleBackToCloseApp` wasn't wrapped in a `Scaffold`. "
     'When `DoubleBackToCloseApp` tries to build. '
-    'Then an `AssertionError` is thrown.',
+    'Then an `StateError` is thrown.',
     (tester) async {
       // Given that `DoubleBackToCloseApp` wasn't wrapped in a `Scaffold`.
       final widget = TestWidget(withScaffold: false);
@@ -65,7 +65,7 @@ void main() {
       // When `DoubleBackToCloseApp` tries to build.
       await tester.pumpWidget(widget);
 
-      // Then an `AssertionError` is thrown.
+      // Then an `StateError` is thrown.
       expect(tester.takeException(), isStateError);
     },
   );
