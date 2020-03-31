@@ -9,9 +9,9 @@ void main() {
 
   setUpAll(() async => driver = await FlutterDriver.connect());
 
-  tearDownAll(() => driver?.close());
+  tearDownAll(() => driver.close());
 
-  Future<bool> isAppOpened() async {
+  Future<bool> checkIfAppIsOpened() async {
     // Wait 1 second to make sure the app had enough time to close.
     await Future.delayed(Duration(seconds: 1));
     return (await driver.getRenderTree()) != null;
@@ -45,7 +45,7 @@ void main() {
       await driver.waitFor(snackBarFinder);
 
       // And the app stills opened.
-      expect(await isAppOpened(), isTrue);
+      expect(await checkIfAppIsOpened(), isTrue);
     },
   );
 }

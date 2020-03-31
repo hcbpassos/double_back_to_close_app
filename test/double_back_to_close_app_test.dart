@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
