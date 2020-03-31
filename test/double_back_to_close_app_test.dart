@@ -59,7 +59,7 @@ void main() {
   testWidgets(
     "Given that `DoubleBackToCloseApp` wasn't wrapped in a `Scaffold`. "
     'When `DoubleBackToCloseApp` tries to build. '
-    'Then an `StateError` is thrown.',
+    'Then an `FlutterError` is thrown.',
     (tester) async {
       // Given that `DoubleBackToCloseApp` wasn't wrapped in a `Scaffold`.
       final widget = TestWidget(withScaffold: false);
@@ -67,8 +67,15 @@ void main() {
       // When `DoubleBackToCloseApp` tries to build.
       await tester.pumpWidget(widget);
 
-      // Then an `StateError` is thrown.
-      expect(tester.takeException(), isStateError);
+      // Then an `FlutterError` is thrown.
+      expect(
+        tester.takeException(),
+        isA<FlutterError>().having(
+          (error) => error.message,
+          'message',
+          '`DoubleBackToCloseApp` must be wrapped in a `Scaffold`.',
+        ),
+      );
     },
   );
 

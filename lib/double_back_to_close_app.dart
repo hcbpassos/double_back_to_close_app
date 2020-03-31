@@ -10,7 +10,10 @@ import 'package:flutter/material.dart';
 /// Since the back-button is an Android feature, this Widget is going to be
 /// nothing but the own [child] if the current platform is anything but Android.
 class DoubleBackToCloseApp extends StatefulWidget {
+  /// The [SnackBar] shown when the user taps the back-button.
   final SnackBar snackBar;
+
+  /// The widget below this widget in the tree.
   final Widget child;
 
   const DoubleBackToCloseApp({
@@ -79,10 +82,10 @@ class _DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
     }
   }
 
-  /// Throws a [StateError] if this widget was not wrapped in a [Scaffold].
+  /// Throws a [FlutterError] if this widget was not wrapped in a [Scaffold].
   void _ensureThatContextContainsScaffold() {
     if (Scaffold.of(context, nullOk: true) == null) {
-      throw StateError(
+      throw FlutterError(
         '`DoubleBackToCloseApp` must be wrapped in a `Scaffold`.',
       );
     }
