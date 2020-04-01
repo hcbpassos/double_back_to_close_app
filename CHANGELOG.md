@@ -1,3 +1,8 @@
+## 1.0.0 - 01/04/2020
+
+- Narrow members visibility 
+- Throw `FlutterError` instead of `StateError` when there's no `Scaffold` **(may be breaking)** 
+
 ## 0.1.2 - 11/10/2019
 
 - Consider route's local-history when showing snack-bar 
