@@ -16,6 +16,8 @@ class DoubleBackToCloseApp extends StatefulWidget {
   /// The widget below this widget in the tree.
   final Widget child;
 
+  /// Creates a widget that allows the user to close the app by double tapping
+  /// the back-button.
   const DoubleBackToCloseApp({
     Key key,
     @required this.snackBar,
