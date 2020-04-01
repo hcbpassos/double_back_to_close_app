@@ -1,3 +1,7 @@
+## 1.1.0 - 01/04/2020
+
+- Lower SDK constraint
+
 ## 1.0.0 - 01/04/2020
 
 - Narrow members visibility 
