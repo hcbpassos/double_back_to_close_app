@@ -5,7 +5,7 @@ homepage: https://github.com/hugocbpassos/double_back_to_close_app
 issue_tracker: https://github.com/hugocbpassos/double_back_to_close_app/issues
 
 environment:
-  sdk: ">=2.0.0 <5.0.0"
+  sdk: ">=2.0.0 <3.0.0"
 
 dependencies:
   flutter:
