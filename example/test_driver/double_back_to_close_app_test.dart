@@ -13,7 +13,7 @@ void main() {
 
   Future<bool> checkIfAppIsOpened() async {
     // Wait 1 second to make sure the app had enough time to close.
-    await Future.delayed(Duration(seconds: 1));
+    await Future<void>.delayed(Duration(seconds: 1));
     return (await driver.getRenderTree()) != null;
   }
 
