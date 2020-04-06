@@ -6,6 +6,8 @@
 
 A Flutter package that allows Android users to press the back-button twice to close the app.
 
+![Demo](media/demo.gif)
+
 ## Usage
 
 Inside a `Scaffold` that wraps all your Widgets, place the `DoubleBackToCloseApp` passing a `SnackBar`:
