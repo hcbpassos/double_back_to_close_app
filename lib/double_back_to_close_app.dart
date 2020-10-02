@@ -95,4 +95,3 @@ class _DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
     }
   }
 }
-
