@@ -5,7 +5,7 @@ void main() {
   final backButtonFinder = find.byType('OutlineButton');
   final snackBarFinder = find.byType('SnackBar');
 
-  FlutterDriver driver;
+  late final FlutterDriver driver;
 
   setUpAll(() async => driver = await FlutterDriver.connect());
 
