@@ -12,9 +12,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_driver:
-    sdk: flutter
-  test: any
+  integration_test: ^1.0.0
 
   double_back_to_close_app:
     path: ../
