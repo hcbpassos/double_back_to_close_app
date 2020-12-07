@@ -1,3 +1,7 @@
+## 1.3.0-nullsafety.1 - 06/12/2020
+
+- Lower SDK's upper constraint
+
 ## 1.2.0 - 01/04/2020
 
 - Lower SDK's upper constraint
