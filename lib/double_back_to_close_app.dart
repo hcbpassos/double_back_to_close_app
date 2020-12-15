@@ -81,6 +81,7 @@ class _DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
       return true;
     } else {
       _lastTimeBackButtonWasTapped = DateTime.now();
+      Scaffold.of(context).hideCurrentSnackBar();
       Scaffold.of(context).showSnackBar(widget.snackBar);
       return false;
     }
