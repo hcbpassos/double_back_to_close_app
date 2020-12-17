@@ -1,4 +1,4 @@
-## 1.3.0-nullsafety.1 - 06/12/2020
+## 1.3.0 - 16/12/2020
 
 - Migrate to NNBD
 - Migrate live tests to `integration_test`
