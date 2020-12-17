@@ -1,4 +1,4 @@
-## 1.3.0 - 16/12/2020
+## 2.0.0 - 16/12/2020
 
 - Migrate to NNBD
 - Migrate live tests to `integration_test`
