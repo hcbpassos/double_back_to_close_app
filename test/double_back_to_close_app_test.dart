@@ -8,26 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   final snackBarFinder = find.byType(SnackBar);
   final scaffoldFinder = find.byType(Scaffold);
-
-  testWidgets('Asserts.', (tester) async {
-    // `DoubleBackToCloseApp.snackBar` null.
-    expect(
-      () => DoubleBackToCloseApp(
-        snackBar: null,
-        child: SizedBox(),
-      ),
-      throwsAssertionError,
-    );
-
-    // `DoubleBackToCloseApp.child` null.
-    expect(
-      () => DoubleBackToCloseApp(
-        snackBar: SnackBar(content: SizedBox()),
-        child: null,
-      ),
-      throwsAssertionError,
-    );
-  });
+  final scaffoldMessengerFinder = find.byType(ScaffoldMessengerState);
 
   testWidgets(
     'Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`. '
@@ -159,7 +140,9 @@ void main() {
 
       // And the `SnackBar` was dismissed.
       expect(snackBarFinder, findsOneWidget);
-      tester.state<ScaffoldState>(scaffoldFinder).hideCurrentSnackBar();
+      tester
+          .state<ScaffoldMessengerState>(scaffoldMessengerFinder)
+          .hideCurrentSnackBar();
       await tester.pump();
       expect(snackBarFinder, findsNothing);
 
@@ -287,8 +270,7 @@ class TestWidget extends StatefulWidget {
   final bool withScaffold;
   final bool withDrawer;
 
-  TestWidget({@required this.withScaffold, this.withDrawer = false})
-      : assert(withScaffold != null) {
+  TestWidget({required this.withScaffold, this.withDrawer = false}) {
     if (!withScaffold) assert(!withDrawer);
   }
 
