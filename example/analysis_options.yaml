@@ -4,8 +4,6 @@ analyzer:
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false
-  enable-experiment:
-    - non-nullable
 linter:
   rules:
     - prefer_typing_uninitialized_variables

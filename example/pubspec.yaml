@@ -3,7 +3,7 @@ description: Demonstrates how to use the double_back_to_close_app plugin.
 publish_to: 'none'
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: '>=2.1.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -12,9 +12,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_driver:
-    sdk: flutter
-  test: any
+  integration_test: ^1.0.0
 
   double_back_to_close_app:
     path: ../
