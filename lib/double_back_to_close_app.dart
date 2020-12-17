@@ -63,7 +63,10 @@ class _DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
 
   @override
   Widget build(BuildContext context) {
-    _ensureThatContextContainsScaffold();
+    assert(() {
+      _ensureThatContextContainsScaffold();
+      return true;
+    }());
 
     if (_isAndroid) {
       return WillPopScope(
