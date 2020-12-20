@@ -84,7 +84,9 @@ class _DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
       return true;
     } else {
       _lastTimeBackButtonWasTapped = DateTime.now();
-      ScaffoldMessenger.of(context).showSnackBar(widget.snackBar);
+      final scaffoldMessenger = ScaffoldMessenger.of(context);
+      scaffoldMessenger.hideCurrentSnackBar();
+      scaffoldMessenger.showSnackBar(widget.snackBar);
       return false;
     }
   }
