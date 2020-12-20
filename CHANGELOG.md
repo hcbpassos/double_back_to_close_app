@@ -1,3 +1,7 @@
+## 2.0.1 - 20/12/2020
+
+- Instantly close current `SnackBar` in order to show `DoubleBackToCloseApp`'s `SnackBar`
+
 ## 2.0.0 - 16/12/2020
 
 - Migrate to NNBD
