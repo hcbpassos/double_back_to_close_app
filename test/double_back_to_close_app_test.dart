@@ -8,7 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   final snackBarFinder = find.byType(SnackBar);
   final scaffoldFinder = find.byType(Scaffold);
-  final scaffoldMessengerFinder = find.byType(ScaffoldMessengerState);
+  final scaffoldMessengerFinder = find.byType(ScaffoldMessenger);
 
   testWidgets(
     'Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`. '
@@ -236,6 +236,42 @@ void main() {
 
       // And the app stills opened.
       expect(eventHandler.didPopRouteCount, 0);
+    },
+  );
+
+  testWidgets(
+    'Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`. '
+    'And another `SnackBar` is currently visible. '
+    ''
+    'When back-button is tapped. '
+    ''
+    'Then the previous `SnackBar` is hidden. '
+    "And `DoubleBackToCloseApp`'s `SnackBar` is shown.",
+    (tester) async {
+      final previousSnackBarFinder = find.widgetWithText(SnackBar, 'Hey!');
+      final nextSnackBarFinder =
+          find.widgetWithText(SnackBar, 'Press back again to leave');
+
+      // Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`.
+      final widget = TestWidget(withScaffold: true);
+      await tester.pumpWidget(widget);
+
+      // And another `SnackBar` is currently visible.
+      tester
+          .state<ScaffoldMessengerState>(scaffoldMessengerFinder)
+          .showSnackBar(const SnackBar(content: Text('Hey!')));
+      await tester.pump();
+      expect(previousSnackBarFinder, findsOneWidget);
+
+      // When back-button is tapped.
+      await tester.binding.handlePopRoute();
+      await tester.pump();
+
+      // Then the previous `SnackBar` is hidden.
+      expect(previousSnackBarFinder, findsNothing);
+
+      // And `DoubleBackToCloseApp`'s `SnackBar` is shown.
+      expect(nextSnackBarFinder, findsOneWidget);
     },
   );
 
