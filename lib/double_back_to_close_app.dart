@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 /// Allows the user to close the app by double tapping the back-button.
 ///
 /// You must specify a [SnackBar], so it can be shown when the user taps the
-/// back-button. Notice that the value you set for [SnackBar.duration] is going
-/// to be considered to decide whether the snack-bar is currently visible or
-/// not.
+/// back-button.
 ///
 /// Since the back-button is an Android feature, this Widget is going to be
 /// nothing but the own [child] if the current platform is anything but Android.
@@ -31,26 +29,15 @@ class DoubleBackToCloseApp extends StatefulWidget {
 }
 
 class _DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
-  /// The last time the user tapped Android's back-button.
-  DateTime? _lastTimeBackButtonWasTapped;
+  /// Completer that gets completed whenever the current snack-bar is closed.
+  var _closedCompleter = Completer<SnackBarClosedReason>()
+    ..complete(SnackBarClosedReason.remove);
 
   /// Returns whether the current platform is Android.
   bool get _isAndroid => Theme.of(context).platform == TargetPlatform.android;
 
   /// Returns whether the [DoubleBackToCloseApp.snackBar] is currently visible.
-  ///
-  /// The snack-bar is going to be considered visible if the duration of the
-  /// snack-bar is greater than the difference from now to the
-  /// [_lastTimeBackButtonWasTapped].
-  ///
-  /// This is not quite accurate since the snack-bar could've been dismissed by
-  /// the user, so this algorithm needs to be improved, as described in #2.
-  bool get _isSnackBarVisible {
-    final lastTimeBackButtonWasTapped = _lastTimeBackButtonWasTapped;
-    return (lastTimeBackButtonWasTapped != null) &&
-        (widget.snackBar.duration >
-            DateTime.now().difference(lastTimeBackButtonWasTapped));
-  }
+  bool get _isSnackBarVisible => !_closedCompleter.isCompleted;
 
   /// Returns whether the next back navigation of this route will be handled
   /// internally.
@@ -83,10 +70,12 @@ class _DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
     if (_isSnackBarVisible || _willHandlePopInternally) {
       return true;
     } else {
-      _lastTimeBackButtonWasTapped = DateTime.now();
       final scaffoldMessenger = ScaffoldMessenger.of(context);
       scaffoldMessenger.hideCurrentSnackBar();
-      scaffoldMessenger.showSnackBar(widget.snackBar);
+      _closedCompleter = scaffoldMessenger
+          .showSnackBar(widget.snackBar)
+          .closed
+          .wrapInCompleter();
       return false;
     }
   }
@@ -98,5 +87,16 @@ class _DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
         '`DoubleBackToCloseApp` must be wrapped in a `Scaffold`.',
       );
     }
+  }
+}
+
+extension<T> on Future<T> {
+  /// Returns a [Completer] that allows checking for this [Future]'s completion.
+  ///
+  /// See https://stackoverflow.com/a/69731240/6696558.
+  Completer<T> wrapInCompleter() {
+    final completer = Completer<T>();
+    then(completer.complete).catchError(completer.completeError);
+    return completer;
   }
 }
