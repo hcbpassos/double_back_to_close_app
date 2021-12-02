@@ -1,3 +1,7 @@
+## 2.1.0 - 01/12/2021
+
+- Fix app closing if `SnackBar` got dismissed ([see #2](https://github.com/hcbpassos/double_back_to_close_app/issues/2))
+
 ## 2.0.1 - 20/12/2020
 
 - Instantly close current `SnackBar` in order to show `DoubleBackToCloseApp`'s `SnackBar`

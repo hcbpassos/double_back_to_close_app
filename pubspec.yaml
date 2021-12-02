@@ -1,6 +1,6 @@
 name: double_back_to_close_app
 description: A Flutter package that allows Android users to press the back-button twice to close the app.
-version: 2.0.1
+version: 2.1.0
 homepage: https://github.com/hcbpassos/double_back_to_close_app
 issue_tracker: https://github.com/hcbpassos/double_back_to_close_app/issues
 
