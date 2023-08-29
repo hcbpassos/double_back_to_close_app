@@ -34,7 +34,7 @@ class DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
     ..complete(SnackBarClosedReason.remove);
 
   /// Returns whether the current platform is Android.
-  bool get _isAndroid => true;
+  bool get _isAndroid => Theme.of(context).platform == TargetPlatform.android;
 
   /// Returns whether the [DoubleBackToCloseApp.snackBar] is currently visible.
   bool get _isSnackBarVisible => !_closedCompleter.isCompleted;
