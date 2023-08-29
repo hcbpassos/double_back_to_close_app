@@ -296,6 +296,7 @@ void main() {
 class LifecycleEventHandler extends WidgetsBindingObserver {
   int didPopRouteCount = 0;
 
+  @override
   Future<bool> didPopRoute() {
     didPopRouteCount++;
     return super.didPopRoute();

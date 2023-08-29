@@ -9,7 +9,7 @@ void main() {
   const snackBarTransitionDuration = Duration(milliseconds: 250);
   const snackBarDisplayDuration = Duration(milliseconds: 4000);
 
-  final backButtonFinder = find.byType(OutlineButton);
+  final backButtonFinder = find.byType(OutlinedButton);
   final snackBarFinder = find.byType(SnackBar);
 
   testWidgets(

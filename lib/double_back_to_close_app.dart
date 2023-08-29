@@ -25,16 +25,16 @@ class DoubleBackToCloseApp extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _DoubleBackToCloseAppState createState() => _DoubleBackToCloseAppState();
+  DoubleBackToCloseAppState createState() => DoubleBackToCloseAppState();
 }
 
-class _DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
+class DoubleBackToCloseAppState extends State<DoubleBackToCloseApp> {
   /// Completer that gets completed whenever the current snack-bar is closed.
   var _closedCompleter = Completer<SnackBarClosedReason>()
     ..complete(SnackBarClosedReason.remove);
 
   /// Returns whether the current platform is Android.
-  bool get _isAndroid => Theme.of(context).platform == TargetPlatform.android;
+  bool get _isAndroid => true;
 
   /// Returns whether the [DoubleBackToCloseApp.snackBar] is currently visible.
   bool get _isSnackBarVisible => !_closedCompleter.isCompleted;

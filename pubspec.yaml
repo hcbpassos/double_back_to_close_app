@@ -5,7 +5,7 @@ homepage: https://github.com/hcbpassos/double_back_to_close_app
 issue_tracker: https://github.com/hcbpassos/double_back_to_close_app/issues
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.12.0 <4.0.0'
 
 dependencies:
   flutter:
@@ -14,4 +14,4 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  effective_dart: ^1.2.1
+  lints: ^2.1.1

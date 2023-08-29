@@ -8,11 +8,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  double_back_to_close_app:
+    path: ../
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  integration_test: ^1.0.0
+  integration_test:
+    sdk: flutter
+  lints: ^2.1.1
 
-  double_back_to_close_app:
-    path: ../
