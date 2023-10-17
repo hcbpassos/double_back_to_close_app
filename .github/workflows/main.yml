@@ -10,5 +10,9 @@ jobs:
         channel: stable
     - name: Get dependencies
       run: flutter pub get
+
+    - name: 'Flutter Format Check'
+      run: flutter format --set-exit-if-changed --dry-run .
+
     - name: Run tests
       run: flutter test
