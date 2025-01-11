@@ -108,10 +108,12 @@ cmake-build-*/
 .idea/**/mongoSettings.xml
 
 # File-based project format
-*.iws
 
 # IntelliJ
-out/
+*.iml
+*.ipr
+*.iws
+.idea/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
