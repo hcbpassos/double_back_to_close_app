@@ -49,13 +49,19 @@ void main() {
     },
   );
 
+  // The following test is necessary because when the snack bar collapses, it
+  // adds a local entry, which overrides the drawer's local entry. As such,
+  // even though the drawer is at the top, the snackbar local entry is the
+  // newest one and first to get popped.
+
   testWidgets(
     'Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`. '
     'And that the `Scaffold` has a `Drawer`. '
     'And that the back-button was tapped. '
     'And that the `Drawer` was opened. '
     ''
-    'When the back-button is tapped again. '
+    'When the `SnackBar` collapses. '
+    'And the back-button is tapped again. '
     ''
     'Then the `Drawer` closes.',
     (tester) async {
@@ -74,7 +80,12 @@ void main() {
       scaffoldState.openDrawer();
       await tester.pumpAndSettle();
 
-      // When the back-button is tapped again.
+      // When the `SnackBar` collapses.
+      await tester.pump(snackBarDisplayDuration);
+      await tester.pump(snackBarTransitionDuration);
+      expect(snackBarFinder, findsNothing);
+
+      // And the back-button is tapped again.
       await tester.binding.handlePopRoute();
       await tester.pumpAndSettle();
 
