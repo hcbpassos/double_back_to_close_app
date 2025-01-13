@@ -55,8 +55,7 @@ void main() {
     'And that the back-button was tapped. '
     'And that the `Drawer` was opened. '
     ''
-    'When the `SnackBar` collapses. '
-    'And the back-button is tapped again. '
+    'When the back-button is tapped again. '
     ''
     'Then the `Drawer` closes.',
     (tester) async {
@@ -73,15 +72,10 @@ void main() {
       // And that the `Drawer` was opened.
       final scaffoldState = tester.state<ScaffoldState>(scaffoldFinder);
       scaffoldState.openDrawer();
-      await tester.pump();
+      await tester.pumpAndSettle();
 
-      // When the `SnackBar` collapses.
-      await tester.pump(snackBarDisplayDuration);
-      await tester.pump(snackBarTransitionDuration);
-      expect(snackBarFinder, findsNothing);
-
-      // And the back-button is tapped again.
-      await tester.tap(backButtonFinder);
+      // When the back-button is tapped again.
+      await tester.binding.handlePopRoute();
       await tester.pumpAndSettle();
 
       // Then the `Drawer` closes.

@@ -16,5 +16,5 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  lints: ^2.1.1
+  lints: ^5.1.1
 
