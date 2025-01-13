@@ -11,6 +11,7 @@ void main() {
 
   final backButtonFinder = find.byType(OutlinedButton);
   final snackBarFinder = find.byType(SnackBar);
+  final scaffoldFinder = find.byType(Scaffold);
 
   testWidgets(
     'Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`. '
@@ -44,6 +45,48 @@ void main() {
       expect(snackBarFinder, findsOneWidget);
 
       // And the app still opened.
+      await tester.pumpAndSettle();
+    },
+  );
+
+  testWidgets(
+    'Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`. '
+    'And that the `Scaffold` has a `Drawer`. '
+    'And that the back-button was tapped. '
+    'And that the `Drawer` was opened. '
+    ''
+    'When the `SnackBar` collapses. '
+    'And the back-button is tapped again. '
+    ''
+    'Then the `Drawer` closes.',
+    (tester) async {
+      // Given that `DoubleBackToCloseApp` was wrapped in a `Scaffold`.
+      // And that the `Scaffold` has a `Drawer`.
+      await tester.pumpWidget(Example());
+
+      // And that the back-button was tapped.
+      expect(backButtonFinder, findsOneWidget);
+      await tester.tap(backButtonFinder);
+      await tester.pump(snackBarTransitionDuration);
+      expect(snackBarFinder, findsOneWidget);
+
+      // And that the `Drawer` was opened.
+      final scaffoldState = tester.state<ScaffoldState>(scaffoldFinder);
+      scaffoldState.openDrawer();
+      await tester.pump();
+
+      // When the `SnackBar` collapses.
+      await tester.pump(snackBarDisplayDuration);
+      await tester.pump(snackBarTransitionDuration);
+      expect(snackBarFinder, findsNothing);
+
+      // And the back-button is tapped again.
+      await tester.tap(backButtonFinder);
+      await tester.pumpAndSettle();
+
+      // Then the `Drawer` closes.
+      expect(scaffoldState.isDrawerOpen, isFalse);
+
       await tester.pumpAndSettle();
     },
   );

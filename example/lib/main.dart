@@ -8,6 +8,10 @@ class Example extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(
+          title: const Text('double_tap_to_close_app'),
+        ),
+        drawer: Drawer(),
         body: DoubleBackToCloseApp(
           snackBar: const SnackBar(
             content: Text('Tap back again to leave'),
